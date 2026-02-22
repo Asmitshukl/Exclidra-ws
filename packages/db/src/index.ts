@@ -10,7 +10,7 @@ import { Pool } from 'pg';
 const connectionString = 'postgresql://neondb_owner:npg_HYmIVeZ8Nhd2@ep-lively-block-aiyv5t0d-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
 
 const datasource={
-    url: process.env["DATABASE_URL"],
+    url: process.env.DATABASE_URL
   }
 
 console.log(datasource.url + " as");
