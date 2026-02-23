@@ -13,7 +13,7 @@ const datasource={
     url: process.env.DATABASE_URL
   }
 
-console.log(datasource.url + " as");
+console.log( `${process.env.DATABASE_URL}` + " as");
 
 const pool = new Pool({ connectionString });
 
