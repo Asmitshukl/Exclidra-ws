@@ -1,7 +1,7 @@
 import {Request,Response, NextFunction } from "express";
 import jwt, { JwtPayload }  from "jsonwebtoken";
 
-import {jwt_secret} from "@repo/config/jwt"
+import {jwt_secret} from "@repo/config/config"
 
 export default function authmiddleware(req:Request,res:Response,next:NextFunction){
     const token =req.headers["authorization"] ?? "";

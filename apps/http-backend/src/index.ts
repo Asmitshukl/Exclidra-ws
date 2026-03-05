@@ -3,11 +3,13 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {CreateRoomSchema, CreateUserSchema, SigninSchema} from "@repo/common/types"
 import {client} from "@repo/db/client";
-import { jwt_secret } from "@repo/config/jwt";
+import { jwt_secret } from "@repo/config/config";
 import authmiddleware from "./middleware/authmiddleware";
+import cors from "cors";
 
 const app=Express();
 app.use(Express.json());
+app.use(cors());
  
 app.post("/signup",async(req,res)=>{
     const parseddata=CreateUserSchema.safeParse(req.body);
@@ -96,6 +98,40 @@ app.post("/room",authmiddleware,async(req,res)=>{
             message:"there is some error"
         })
     }
+})
+
+app.get("/chats/:roomid" , async(req,res)=>{
+    try{
+        const roomid=Number(req.params.roomid);
+        const messages=await client.chat.findMany({
+            where:{
+                roomId:roomid
+            },orderBy:{
+                id:"desc"
+            },
+            take:1000
+        });
+        console.log(messages);
+        res.json({messages})
+        }catch(e){
+            console.log(e);
+            res.json({
+                messages:"Couldnt get the messges"
+            })
+        }
+})
+
+app.get("/room/:slug" , async(req,res)=>{
+    const slug=req.params.slug;
+    const room=await client.room.findFirst({
+        where:{
+            slug
+        }
+    });
+
+    res.json({
+        room
+    })
 })
 
 app.listen(3002);

@@ -1,19 +1,16 @@
-"use client"
-import Rect from "@/objects/rect";
-import { useEffect, useRef } from "react"
+import { Roomcanvas } from "@/components/RoomCanvas";
 
-export default function Canvas(){
-    const canvasref=useRef<HTMLCanvasElement>(null);
-
-    useEffect(()=>{
-        if(canvasref.current){
-            Rect(canvasref.current);
-        }
-    },[canvasref])
-
+export default async function Canvaspage({params}:{
+    params:{
+        roomid:string
+    }
+}){
+    const roomId=(await params).roomid;
+    console.log(roomId);
+    
     return (
         <div>
-            <canvas ref={canvasref} width={1080}  height={1080} ></canvas>
+            <Roomcanvas roomId={roomId} />
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import { WebSocketServer ,WebSocket} from "ws";
 import jwt, { JwtPayload } from "jsonwebtoken"
 import {client} from "@repo/db/client"
-import {jwt_secret} from "@repo/config/jwt";
+import {jwt_secret} from "@repo/config/config";
 
 const wss=new WebSocketServer({port:8080});
 
@@ -65,7 +65,7 @@ wss.on('connection',function connection(ws,request){
         console.log(parseddata);
 
         if(parseddata.type === "chat"){
-            const roomid=parseddata.roomid;
+            const roomid=parseddata.roomId;
             const message=parseddata.message;
 
             try{

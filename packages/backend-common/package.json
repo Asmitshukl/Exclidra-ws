@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "exports": {
-    "./jwt": "./config.ts"
+    "./config": "./config.ts"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*"
