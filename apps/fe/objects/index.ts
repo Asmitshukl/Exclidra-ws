@@ -40,6 +40,7 @@ export async function initdraw(canvas :HTMLCanvasElement , roomId:string,socket:
     let startY=0;
 
     let clicked=false;
+    
     canvas.addEventListener("mousedown",(e)=>{
     clicked=true;
     startX=e.clientX;
@@ -72,7 +73,7 @@ export async function initdraw(canvas :HTMLCanvasElement , roomId:string,socket:
             const height=e.clientY- startY;
             redrawcanvas(existingshape,ctx,canvas);
             ctx.strokeStyle="rgba(255,255,255)";
-            ctx.strokeRect(startX,startY,width,height)
+            ctx.strokeRect(startX,startY,width,height);
         }
     })
     

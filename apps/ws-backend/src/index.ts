@@ -5,12 +5,12 @@ import {jwt_secret} from "@repo/config/config";
 
 const wss=new WebSocketServer({port:8080});
 
-let usermap=new Map<WebSocket,String>();
-let websmap=new Map<String,WebSocket>();
-let roommap=new Map<String,String[]>();
+let usermap=new Map<WebSocket,string>();
+let websmap=new Map<string,WebSocket>();
+let roommap=new Map<string,string[]>();
 
 
-function getuserid(token:String):string | null{
+function getuserid(token:string):string | null{
 
     try{
     const decoded=jwt.verify(token as string,jwt_secret);
@@ -35,7 +35,6 @@ wss.on('connection',function connection(ws,request){
     const token=quereyparams.get('token') as string;
     console.log(token);
     const userid=getuserid(token);
-
     if(userid === null){
         ws.close();
         return null;
@@ -65,24 +64,24 @@ wss.on('connection',function connection(ws,request){
         console.log(parseddata);
 
         if(parseddata.type === "chat"){
-            const roomid=parseddata.roomId;
+            const roomId=parseddata.roomId;
             const message=parseddata.message;
-
             try{
             await client.chat.create({
                 data:{
-                    roomId:Number(roomid),
+                    roomId:Number(roomId),
                     message,
                     userId:userid
                 }
             });
 
-            for(const [userid,rooms] of roommap){
-                if(rooms.includes(roomid)){
-                    websmap.get(userid)?.send(JSON.stringify({
+            for(const [userId,rooms] of roommap){
+                if(rooms.includes(roomId)){
+                    console.log("hi there");
+                    websmap.get(userId)?.send(JSON.stringify({
                         type:"chat",
                         message:message,
-                        roomid
+                        roomId
                     }))
                 }
             }
