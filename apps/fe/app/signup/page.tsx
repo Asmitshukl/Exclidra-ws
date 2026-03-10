@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import BackToHome from "@/components/BackToHome";
 import DecoCorner from "@/components/DecoCorner";
 import Divider from "@/components/Divider";
 import FormField from "@/components/FormField";
 import GoogleOAuthButton from "@/components/GoogleOAuthButton";
+import axios from "axios";
+import { HTTP_BACKEND } from "@repo/config/config";
+import { useRouter } from "next/navigation";
 
 const FIELDS = [
   {
@@ -51,6 +54,7 @@ const FEATURES = [
 ];
 
 export default function SignUpPage() {
+  const {push} =useRouter();
   const [focused, setFocused] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
 
@@ -151,6 +155,7 @@ export default function SignUpPage() {
             <button
               type="button"
               className="mt-1 w-full cursor-pointer rounded-xl bg-[#171717] py-3.5 text-lg font-semibold text-white shadow-[4px_4px_0_#00E0C6] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:bg-[#2d2d50] hover:shadow-[5px_5px_0_#00E0C6] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#00E0C6]"
+              onClick={()=>signup(formData , push)}
             >
               Start collaborating &rarr;
             </button>
@@ -161,4 +166,22 @@ export default function SignUpPage() {
       </div>
     </div>
   );
+}
+async function signup(formData :any,push:any){
+  try{
+  const res=await axios.post(`${HTTP_BACKEND}/signup`,{
+  
+      name:formData.name,
+      email:formData.email,
+      password:formData.password
+  })
+
+  console.log(res);
+  if(res.status == 200){
+    push('/dashboard');
+  }
+
+  }catch(e){
+    console.log(e);
+  }
 }

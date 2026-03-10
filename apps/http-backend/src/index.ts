@@ -13,6 +13,7 @@ app.use(cors());
  
 app.post("/signup",async(req,res)=>{
     const parseddata=CreateUserSchema.safeParse(req.body);
+    console.log(parseddata);
     const hashpassword=await bcrypt.hash(parseddata.data?.password || "",5);
     if(!parseddata.success){
         return res.json({

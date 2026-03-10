@@ -7,6 +7,9 @@ import DecoCorner from "@/components/DecoCorner";
 import Divider from "@/components/Divider";
 import FormField from "@/components/FormField";
 import GoogleOAuthButton from "@/components/GoogleOAuthButton";
+import axios from "axios";
+import { HTTP_BACKEND } from "@repo/config/config";
+import { useRouter } from "next/navigation";
 
 const FIELDS = [
   {
@@ -26,6 +29,7 @@ const FIELDS = [
 ] as const;
 
 export default function SignInPage() {
+  const {push}=useRouter();
   const [focused, setFocused] = useState<string | null>(null);
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -149,6 +153,7 @@ export default function SignInPage() {
             <button
               type="button"
               className="w-full cursor-pointer rounded-xl bg-[#171717] py-3.5 text-lg font-semibold text-white shadow-[4px_4px_0_#00E0C6] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:bg-[#2d2d50] hover:shadow-[5px_5px_0_#00E0C6] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#00E0C6]"
+              onClick={()=>signIn(formData,push)}
             >
               Sign in &rarr;
             </button>
@@ -159,4 +164,24 @@ export default function SignInPage() {
       </div>
     </div>
   );
+}
+async function signIn(formData:any,push:any){
+  try{
+  const res=await axios.post(`${HTTP_BACKEND}/signin`,{
+      email:formData.email,
+      password:formData.password
+  })
+
+  console.log(res);
+  // if(res.status == 200){
+  //   push('/dashboard');
+  // }
+  if(res.data.token){
+    localStorage.setItem('token',res.data.token);
+    push('/dashboard');
+  }
+
+  }catch(e){
+    console.log(e);
+  }
 }
