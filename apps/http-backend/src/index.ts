@@ -101,6 +101,26 @@ app.post("/room",authmiddleware,async(req,res)=>{
     }
 })
 
+app.get("/rooms",authmiddleware,async(req,res)=>{
+    try{
+        //@ts-ignore
+        const userID=req.userId;
+        console.log(userID);
+        const rooms=await client.room.findMany({
+            where:{
+                adminId:userID
+            }
+        })
+        console.log(rooms);
+        return res.json({rooms});
+    }catch(e){
+        console.log(e);
+        res.json({
+            message:"there is some error"
+        })
+    }
+})
+
 app.get("/chats/:roomid" , async(req,res)=>{
     try{
         const roomid=Number(req.params.roomid);
