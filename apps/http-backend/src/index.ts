@@ -13,7 +13,6 @@ app.use(cors());
  
 app.post("/signup",async(req,res)=>{
     const parseddata=CreateUserSchema.safeParse(req.body);
-    console.log(parseddata);
     const hashpassword=await bcrypt.hash(parseddata.data?.password || "",5);
     if(!parseddata.success){
         return res.json({
@@ -76,6 +75,7 @@ app.post("/signin",async(req,res)=>{
 
 app.post("/room",authmiddleware,async(req,res)=>{
     const parseddata=CreateRoomSchema.safeParse(req.body);
+    console.log(parseddata);
     if(!parseddata.success){
         return res.json({
             message:"not the right credintials"

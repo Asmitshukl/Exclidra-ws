@@ -4,7 +4,7 @@ import jwt, { JwtPayload }  from "jsonwebtoken";
 import {jwt_secret} from "@repo/config/config"
 
 export default function authmiddleware(req:Request,res:Response,next:NextFunction){
-    const token =req.headers["authorization"] ?? "";
+    const token =req.headers["authorization"]  || req.headers["authorization"]?.split(" ")[1] || "";
     console.log(token);
     res.json({
         token:token
