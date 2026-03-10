@@ -97,7 +97,7 @@ export class Game{
             }
         })
     }
-    mouseDownHandler=(e)=>{
+    mouseDownHandler=(e :any)=>{
         this.clicked=true;
         if(this.slectedTool !== "pencil"){
             this.startX=e.clientX
@@ -111,7 +111,7 @@ export class Game{
             this.ctx.moveTo(this.startX, this.startY);
         }
     }
-    mouseUpHandler=(e)=>{
+    mouseUpHandler=(e : any)=>{
         this.clicked = false
         const width = e.clientX - this .startX;
         const height = e.clientY - this.startY;
@@ -153,7 +153,7 @@ export class Game{
             roomId: this.roomId
         }))
     }
-    mouseMoveHandler=(e)=>{
+    mouseMoveHandler=(e : any)=>{
         if(this.clicked){
             const width=e.clientX - this.startX;
             const height=e.clientY - this.startY;
