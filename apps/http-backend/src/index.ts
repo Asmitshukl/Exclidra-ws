@@ -1,4 +1,4 @@
-import  Express  from "express";
+import  Express, { Express as ExpressApp } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {CreateRoomSchema, CreateUserSchema, SigninSchema} from "@repo/common/types"
@@ -7,7 +7,7 @@ import { jwt_secret } from "@repo/config/config";
 import authmiddleware from "./middleware/authmiddleware";
 import cors from "cors";
 
-const app=Express();
+export const app: ExpressApp = Express();
 app.use(Express.json());
 app.use(cors());
  
@@ -154,5 +154,3 @@ app.get("/room/:slug" , async(req,res)=>{
         room
     })
 })
-
-app.listen(3002);
