@@ -10,7 +10,7 @@
     "db:migrate":"cd packages/db && npx prisma generate && cd ../..",
     "buildbackend":"cd apps/http-backend && npm run dev",
     "buildfe":"cd apps/fe && npm run dev",
-    "buildws":"cd apps/fe && pnpm install && npm run dev"
+    "buildws":"cd apps/fe  && npm run dev"
   },
   "devDependencies": {
     "prettier": "^3.7.4",

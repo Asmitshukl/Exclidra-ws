@@ -1,23 +1,15 @@
 FROM node:22-alpine
-
 WORKDIR /usr/src/app
-
 RUN corepack enable
 
-COPY ./packages ./packages
-
-COPY ./package.json ./package.json
-
-COPY ./turbo.json ./turbo.json
-
-COPY ./apps/http-backend ./apps/http-backend
-
-RUN pnpm install
-
+# Copy everything first
 COPY . .
 
+# Now install ALL workspaces
+RUN pnpm install
+
+# Now prisma/config will resolve correctly
 RUN pnpm run db:migrate
 
 EXPOSE 3002
-
-CMD ["npm" ,"run" ,"buildbackend"]
+CMD ["pnpm", "run", "start"]
