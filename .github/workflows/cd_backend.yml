@@ -19,7 +19,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./docker/Dockerfile.backend
+          file: ./Docker/Dockerfile.backend
           push: true
-          tags: Asmitshukl/Exclidra-ws:${{ github.sha }}
+          tags: asmitshukl/exclidra-ws:${{ github.sha }}
 
