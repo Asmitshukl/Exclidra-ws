@@ -1,5 +1,5 @@
 "use client"
-import { initdraw } from "@/objects";
+
 import { Game } from "@/objects/Game";
 import { useEffect, useRef, useState } from "react";
 import { IconButton } from "./IconButton";
