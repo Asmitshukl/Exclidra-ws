@@ -1,12 +1,25 @@
 'use client'
-import { signIn } from "next-auth/react";
+import { signIn ,useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 
 export default function GoogleOAuthButton() {
+  const {data: session}=useSession();
+  const router=useRouter();
+
+  useEffect(()=>{
+    if(session?.user?.name){
+      localStorage.setItem("token",session.user.name);
+      router.push("/dashboard");
+    }
+  },[session]);
+
   return (
     <button
       type="button"
       className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl border border-[#e0e0e0] bg-white px-5 py-3 text-sm font-medium text-[#171717] transition-all hover:border-[#171717] hover:bg-[#f5f5f5] active:scale-[0.98]"
-      // onClick={()=>signIn("google",{callbackUrl:"/dashboard"})}
+      onClick={() => signIn("google")}
     >
       <svg width="18" height="18" viewBox="0 0 24 24">
         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.07 5.07 0 0 1-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />

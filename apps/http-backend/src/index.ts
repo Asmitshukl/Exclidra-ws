@@ -10,6 +10,7 @@ import cors from "cors";
 export const app: ExpressApp = Express();
 app.use(Express.json());
 app.use(cors());
+
  
 app.post("/signup",async(req,res)=>{
     const parseddata=CreateUserSchema.safeParse(req.body);
@@ -153,4 +154,31 @@ app.get("/room/:slug" , async(req,res)=>{
     res.json({
         room
     })
+})
+
+
+app.post("/auth/google",async(req,res)=>{
+    const {email,name}=req.body;
+    try{
+        let user=await client.user.findFirst({
+            where:{email}
+        });
+        if(!user){
+            user=await client.user.create({
+                data:{
+                    email,
+                    name,
+                    password:""
+                }
+            })
+        }
+        const token=jwt.sign(
+            {userid:user.id},jwt_secret
+        )
+        return res.json({token});
+    }catch(e){
+        return res.json({
+            message:"there is some error"
+        })
+    }
 })
