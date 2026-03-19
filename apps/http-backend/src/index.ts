@@ -175,10 +175,28 @@ app.post("/auth/google",async(req,res)=>{
         const token=jwt.sign(
             {userid:user.id},jwt_secret
         )
-        return res.json({token});
+    return res.json({token});
     }catch(e){
         return res.json({
             message:"there is some error"
+        })
+    }
+})
+
+app.get("/me",authmiddleware,async(req,res)=>{
+    //@ts-ignore
+    const userId=req.userId;
+    try{
+        const userdetails=await client.user.findFirst({
+            where:{id:userId}
+        });
+        if(userdetails){
+            return res.json({name:userdetails.name , email:userdetails.email , photo:userdetails.photo??""})
+        }
+    }catch(e){
+        console.log(e);
+        return res.json({
+            message:"Cant find the user"
         })
     }
 })
